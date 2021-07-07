@@ -99,3 +99,5 @@ class PdfUploadStack extends Stack {
     });
   }
 }
+
+module.exports = PdfUploadStack;

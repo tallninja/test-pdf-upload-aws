@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "setup": "npm install",
+    "dev": "nodemon index.js",
+    "cdk-bootstrap": "npx cdk bootstrap",
+    "cdk-deploy": "npx cdk deploy test-pdf-upload --outputs-file ../client/config/cdk-exports-dev.js",
+    "cdk-create-stack": "npm run cdk-bootstrap && npm run cdk-deploy"
   },
   "keywords": [],
   "author": "",

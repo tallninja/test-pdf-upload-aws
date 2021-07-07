@@ -1,0 +1,8 @@
+1. Create an aws user with programatic access.
+2. Create a group with administrator access to IAM, Cloudformation, S3, Lambda, API gateway
+3. Add the user to the created group.
+4. install aws-cli and configure the credentials using named profiles
+5. Create the Stack
+    - S3 Bucket
+    - API gateway
+    - Lambda function
