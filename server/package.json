@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-cdk/aws-apigatewayv2": "^1.111.0",
+    "@aws-cdk/aws-apigatewayv2-integrations": "^1.111.0",
+    "@aws-cdk/aws-iam": "^1.111.0",
+    "@aws-cdk/aws-lambda": "^1.111.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.111.0",
+    "@aws-cdk/aws-logs": "^1.111.0",
+    "@aws-cdk/aws-s3": "^1.111.0",
+    "@aws-cdk/core": "^1.111.0",
+    "aws-cdk": "^1.111.0",
+    "aws-sdk": "^2.939.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.9",
+    "uuid": "^8.3.2"
+  }
+}
