@@ -6,3 +6,7 @@
     - S3 Bucket
     - API gateway
     - Lambda function
+6. Must create a cdk.json file on the root folder.
+
+SIDE_NOTE: The esbuild package is veeeery important it is the one that
+            bundles our cloud stack to a zip file;

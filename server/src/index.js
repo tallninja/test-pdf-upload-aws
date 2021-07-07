@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const AWS = require("aws-sdk");
 
-const keys = require("./config/keys");
+const keys = require("../config/keys");
 
 // setup the express app and middlewares
 const app = express();

@@ -35,7 +35,7 @@ class PdfUploadStack extends Stack {
 
     // our API Gateway
     const httpApi = new HttpApi(this, "api", {
-      description: `__${DEPLOY_ENVIRONMENT}__ API for ${STACK_PREFIX}`,
+      description: `___${DEPLOY_ENVIRONMENT}___ API for ${STACK_PREFIX}`,
       apiName: `${STACK_PREFIX}-api-${DEPLOY_ENVIRONMENT}`,
       corsPreflight: {
         allowHeaders: [

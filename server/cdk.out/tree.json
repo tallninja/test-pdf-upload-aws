@@ -1,0 +1,590 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Construct",
+          "version": "1.111.0"
+        }
+      },
+      "test-pdf-upload-dev": {
+        "id": "test-pdf-upload-dev",
+        "path": "test-pdf-upload-dev",
+        "children": {
+          "test-pdf-upload-dev": {
+            "id": "test-pdf-upload-dev",
+            "path": "test-pdf-upload-dev/test-pdf-upload-dev",
+            "children": {
+              "Notifications": {
+                "id": "Notifications",
+                "path": "test-pdf-upload-dev/test-pdf-upload-dev/Notifications",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.111.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "test-pdf-upload-dev/test-pdf-upload-dev/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "GET",
+                            "POST",
+                            "PUT"
+                          ],
+                          "allowedOrigins": [
+                            "http://localhost:3000"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
+                  "version": "1.111.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-s3.Bucket",
+              "version": "1.111.0"
+            }
+          },
+          "api": {
+            "id": "api",
+            "path": "test-pdf-upload-dev/api",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "test-pdf-upload-dev/api/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Api",
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "allowCredentials": true,
+                      "allowHeaders": [
+                        "Content-Type",
+                        "X-Amz-Date",
+                        "Authorization",
+                        "X-Api-Key"
+                      ],
+                      "allowMethods": [
+                        "PUT",
+                        "GET",
+                        "OPTIONS",
+                        "POST",
+                        "PATCH",
+                        "DELETE"
+                      ],
+                      "allowOrigins": [
+                        "http://localhost:3000"
+                      ]
+                    },
+                    "description": "___dev___ API for test-pdf-upload",
+                    "name": "test-pdf-upload-api-dev",
+                    "protocolType": "HTTP"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2.CfnApi",
+                  "version": "1.111.0"
+                }
+              },
+              "DefaultStage": {
+                "id": "DefaultStage",
+                "path": "test-pdf-upload-dev/api/DefaultStage",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "test-pdf-upload-dev/api/DefaultStage/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Stage",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "apiC8550315"
+                        },
+                        "stageName": "$default",
+                        "autoDeploy": true
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2.CfnStage",
+                      "version": "1.111.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2.HttpStage",
+                  "version": "1.111.0"
+                }
+              },
+              "GET--get-presigned-url": {
+                "id": "GET--get-presigned-url",
+                "path": "test-pdf-upload-dev/api/GET--get-presigned-url",
+                "children": {
+                  "testpdfuploaddevapiGETgetpresignedurlBB5AB6BC-Permission": {
+                    "id": "testpdfuploaddevapiGETgetpresignedurlBB5AB6BC-Permission",
+                    "path": "test-pdf-upload-dev/api/GET--get-presigned-url/testpdfuploaddevapiGETgetpresignedurlBB5AB6BC-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "getpresignedurlB8D2A9C2",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:af-south-1:",
+                              {
+                                "Ref": "AWS::AccountId"
+                              },
+                              ":",
+                              {
+                                "Ref": "apiC8550315"
+                              },
+                              "/*/*/get-presigned-url"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-lambda.CfnPermission",
+                      "version": "1.111.0"
+                    }
+                  },
+                  "HttpIntegration-51f207ef7366443b726dbf02063da049": {
+                    "id": "HttpIntegration-51f207ef7366443b726dbf02063da049",
+                    "path": "test-pdf-upload-dev/api/GET--get-presigned-url/HttpIntegration-51f207ef7366443b726dbf02063da049",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "test-pdf-upload-dev/api/GET--get-presigned-url/HttpIntegration-51f207ef7366443b726dbf02063da049/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "apiC8550315"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "getpresignedurlB8D2A9C2",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/aws-apigatewayv2.CfnIntegration",
+                          "version": "1.111.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2.HttpIntegration",
+                      "version": "1.111.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "test-pdf-upload-dev/api/GET--get-presigned-url/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "apiC8550315"
+                        },
+                        "routeKey": "GET /get-presigned-url",
+                        "authorizationType": "NONE",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "apiGETgetpresignedurlHttpIntegration51f207ef7366443b726dbf02063da04964E6B3E9"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2.CfnRoute",
+                      "version": "1.111.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2.HttpRoute",
+                  "version": "1.111.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-apigatewayv2.HttpApi",
+              "version": "1.111.0"
+            }
+          },
+          "get-presigned-url": {
+            "id": "get-presigned-url",
+            "path": "test-pdf-upload-dev/get-presigned-url",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "test-pdf-upload-dev/get-presigned-url/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "test-pdf-upload-dev/get-presigned-url/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-iam.CfnRole",
+                      "version": "1.111.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "test-pdf-upload-dev/get-presigned-url/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "test-pdf-upload-dev/get-presigned-url/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "s3:PutObject*",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "testpdfuploaddev2D15DF94",
+                                            "Arn"
+                                          ]
+                                        },
+                                        "/*"
+                                      ]
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": "s3:PutObjectAcl",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        {
+                                          "Fn::GetAtt": [
+                                            "testpdfuploaddev2D15DF94",
+                                            "Arn"
+                                          ]
+                                        },
+                                        "/*"
+                                      ]
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "getpresignedurlServiceRoleDefaultPolicy4D92F7DB",
+                            "roles": [
+                              {
+                                "Ref": "getpresignedurlServiceRole9A1DB626"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/aws-iam.CfnPolicy",
+                          "version": "1.111.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-iam.Policy",
+                      "version": "1.111.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-iam.Role",
+                  "version": "1.111.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "test-pdf-upload-dev/get-presigned-url/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "test-pdf-upload-dev/get-presigned-url/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.AssetStaging",
+                      "version": "1.111.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "test-pdf-upload-dev/get-presigned-url/Code/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "test-pdf-upload-dev/get-presigned-url/Code/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/core.Construct",
+                          "version": "1.111.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-s3.BucketBase",
+                      "version": "1.111.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3-assets.Asset",
+                  "version": "1.111.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "test-pdf-upload-dev/get-presigned-url/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParametersa3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643S3BucketA59C7152"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersa3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643S3VersionKey29AE568F"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersa3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643S3VersionKey29AE568F"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "getpresignedurlServiceRole9A1DB626",
+                        "Arn"
+                      ]
+                    },
+                    "environment": {
+                      "variables": {
+                        "BUCKET_NAME": {
+                          "Ref": "testpdfuploaddev2D15DF94"
+                        },
+                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                      }
+                    },
+                    "handler": "index.main",
+                    "memorySize": 1024,
+                    "runtime": "nodejs14.x",
+                    "timeout": 5
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-lambda.CfnFunction",
+                  "version": "1.111.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-lambda-nodejs.NodejsFunction",
+              "version": "1.111.0"
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "test-pdf-upload-dev/AssetParameters",
+            "children": {
+              "a3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643": {
+                "id": "a3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643",
+                "path": "test-pdf-upload-dev/AssetParameters/a3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "test-pdf-upload-dev/AssetParameters/a3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.111.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "test-pdf-upload-dev/AssetParameters/a3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.111.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "test-pdf-upload-dev/AssetParameters/a3c7084674708c071ef8b787b9e9fa2bfbac27cd44533a82e0a9b249c6fd2643/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.111.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.111.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.111.0"
+            }
+          },
+          "region": {
+            "id": "region",
+            "path": "test-pdf-upload-dev/region",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnOutput",
+              "version": "1.111.0"
+            }
+          },
+          "apiUrl": {
+            "id": "apiUrl",
+            "path": "test-pdf-upload-dev/apiUrl",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnOutput",
+              "version": "1.111.0"
+            }
+          },
+          "bucketName": {
+            "id": "bucketName",
+            "path": "test-pdf-upload-dev/bucketName",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnOutput",
+              "version": "1.111.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "test-pdf-upload-dev/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "test-pdf-upload-dev/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnResource",
+                  "version": "1.111.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.111.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Stack",
+          "version": "1.111.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "@aws-cdk/core.App",
+      "version": "1.111.0"
+    }
+  }
+}
