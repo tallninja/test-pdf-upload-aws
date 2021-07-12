@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-//   const res = await axios.post("http://localhost:5000/", e.target.value);
-//   console.log(res.data);
-// };
+import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { file: null };
+    this.state = { file: null, s3FileURL: null, numPages: null, pageNumber: 1 };
   }
 
   onFormSubmit = (event) => {
@@ -25,7 +20,7 @@ class App extends Component {
         fileType: this.state.file.type,
       },
     });
-    const { url, fields } = res.data;
+    const { url, fields, filePath } = res.data;
 
     const formData = new FormData();
     formData.append("Content-Type", this.state.file.type);
@@ -39,6 +34,31 @@ class App extends Component {
         "Content-Type": "multipart/form-data",
       },
     });
+
+    this.setState({ s3FileURL: `${url}/${filePath}` });
+  };
+
+  onDocumentLoadSuccess = ({ numPages }) => {
+    this.setState({ numPages: numPages });
+  };
+
+  renderDocument = () => {
+    if (this.state.s3FileURL) {
+      const { pageNumber, numPages } = this.state;
+      return (
+        <Document
+          file={this.state.s3FileURL}
+          onLoadSuccess={this.onDocumentLoadSuccess}
+        >
+          <Page pageNumber={pageNumber} />
+          <p>
+            {pageNumber} of {numPages}
+          </p>
+        </Document>
+      );
+    } else {
+      return null;
+    }
   };
 
   render = () => {
@@ -59,7 +79,6 @@ class App extends Component {
               name="material"
               onChange={(event) => {
                 this.setState({ file: event.target.files[0] });
-                // console.log(event.target.files);
               }}
             ></input>
           </div>
@@ -67,6 +86,7 @@ class App extends Component {
             Submit
           </button>
         </form>
+        {this.renderDocument()}
       </div>
     );
   };
