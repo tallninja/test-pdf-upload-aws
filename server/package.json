@@ -1,11 +1,12 @@
 {
   "scripts": {
     "setup": "npm install && npm install --prefix src/",
+    "dev": "npm run dev --prefix src/",
     "cdk-bootstrap": "npx cdk bootstrap",
-    "cdk-synth": "npx cdk synth presigned-url-dev",
-    "cdk-deploy": "npx cdk deploy presigned-url-dev --outputs-file ../client/config/cdk-exports-dev.json",
+    "cdk-synth": "npx cdk synth test-pdf-upload-dev",
+    "cdk-deploy": "npx cdk deploy test-pdf-upload-dev --outputs-file ./src/cdk-exports-dev.json",
     "cdk-create-stack": "npm run cdk-bootstrap && npm run cdk-deploy",
-    "cdk-destroy": "npx cdk destroy presigned-url-dev",
+    "cdk-destroy": "npx cdk destroy test-pdf-upload-dev",
     "test": "jest",
     "watch": "tsc -w",
     "build": "tsc",
@@ -28,6 +29,7 @@
     "aws-sdk": "^2.941.0",
     "path": "^0.12.7",
     "source-map-support": "^0.5.19",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {

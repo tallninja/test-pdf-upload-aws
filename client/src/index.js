@@ -20,17 +20,29 @@ class App extends Component {
   };
 
   uploadFile = async () => {
-    // console.log(this.state.file.type);
-    const res = await axios.get("http://localhost:5000/uploads");
+    const res = await axios.get("http://localhost:5000/uploads", {
+      params: {
+        fileType: this.state.file.type,
+      },
+    });
     const { success, key, url } = res.data;
-    await axios.put(url, this.state.file, {
+    await axios.post(url, this.state.file, {
       headers: {
         "Content-Type": this.state.file.type,
       },
     });
   };
 
+  // getPresignedURL = async () => {
+  //   const res = await axios.get(
+  //     "https://kr5r9xtegl.execute-api.af-south-1.amazonaws.com/get-presigned-url?fileType=application/pdf"
+  //   );
+  //   console.log(res);
+  // };
+
   render = () => {
+    // this.getPresignedURL();
+
     return (
       <div className="ui container">
         <h4>Hello World !</h4>

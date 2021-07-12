@@ -16,6 +16,7 @@ const {
   STACK_PREFIX,
   DEPLOY_ENVIRONMENT,
   FRONTEND_BASE_URL,
+  GET_PRESIGNED_URL_API_PATH,
 } = require("../config/constants");
 
 class PdfUploadStack extends Stack {
@@ -77,7 +78,7 @@ class PdfUploadStack extends Stack {
     s3bucket.grantPutAcl(getPresignedUrlFunction);
 
     httpApi.addRoutes({
-      path: "/get-presigned-url",
+      path: `/${GET_PRESIGNED_URL_API_PATH}`,
       methods: [HttpMethod.GET],
       integration: new LambdaProxyIntegration({
         handler: getPresignedUrlFunction,
