@@ -7,15 +7,25 @@ import { Button, Progress } from "semantic-ui-react";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { file: null, s3FileURL: null, progress: 0 };
+    this.state = {
+      file: null,
+      s3FileURL: null,
+      progress: 0,
+      isUploading: false,
+    };
   }
 
   onFormSubmit = (event) => {
     event.preventDefault();
     this.uploadFile((e) => {
+      this.setState({ isUploading: true });
       this.setState({
         progress: Math.floor((e.loaded / e.total) * 100),
       });
+
+      if (e.loaded === e.total) {
+        this.setState({ isUploading: false });
+      }
       // console.log(e.loaded);
       // console.log(e.total);
     });
@@ -126,32 +136,49 @@ class App extends Component {
     }
   };
 
+  renderProgressBar = () => {
+    if (this.state.isUploading) {
+      return <Progress percent={this.state.progress} indicating />;
+    } else {
+      return null;
+    }
+  };
+
   render = () => {
     return (
       <div className="ui container">
         <h4>Hello World !</h4>
-        <form
-          method="POST"
-          encType="multipart/form-data"
-          className="ui form"
-          onSubmit={this.onFormSubmit}
-        >
-          <div className="field">
-            <label>Upload file</label>
-            <input
-              type="file"
-              accept=".pdf"
-              name="material"
-              onChange={this.handleFileChange}
-            ></input>
+        <div className="ui placeholder segment">
+          <div className="ui icon header">
+            <i className="pdf file outline icon"></i>
+            <form
+              method="POST"
+              encType="multipart/form-data"
+              className="ui form"
+              onSubmit={this.onFormSubmit}
+            >
+              <div className="field">
+                <label>Upload file</label>
+                <label className="ui teal button" htmlFor="file-input">
+                  Choose a file
+                </label>
+                <input
+                  type="file"
+                  accept=".pdf"
+                  name="material"
+                  onChange={this.handleFileChange}
+                  id="file-input"
+                  hidden={true}
+                ></input>
+                {this.state.file ? this.state.file.name : null}
+              </div>
+              <div>{this.renderProgressBar()}</div>
+              <button className="ui green button" type="submit">
+                Upload
+              </button>
+            </form>
           </div>
-          <div>
-            <Progress percent={this.state.progress} indicating />
-          </div>
-          <button className="ui green button" type="submit">
-            Submit
-          </button>
-        </form>
+        </div>
         {this.renderDocument()}
       </div>
     );
