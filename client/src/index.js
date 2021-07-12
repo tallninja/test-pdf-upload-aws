@@ -1,41 +1,60 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
+import { Button, Progress } from "semantic-ui-react";
+// import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { file: null, s3FileURL: null };
+    this.state = { file: null, s3FileURL: null, progress: 0 };
   }
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    this.uploadFile();
+    this.uploadFile((e) => {
+      this.setState({
+        progress: Math.floor((e.loaded / e.total) * 100),
+      });
+      // console.log(e.loaded);
+      // console.log(e.total);
+    });
   };
 
-  uploadFile = async () => {
-    const res = await axios.get("http://localhost:5000/uploads", {
-      params: {
-        fileType: this.state.file.type,
-      },
-    });
-    const { url, fields, filePath } = res.data;
+  uploadFile = async (onUploadProgress) => {
+    try {
+      const file = this.state.file;
 
-    const formData = new FormData();
-    formData.append("Content-Type", this.state.file.type);
-    Object.entries(fields).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    formData.append("file", this.state.file);
+      if (!file) {
+        throw new Error("Please select a file to upload");
+      }
 
-    await axios.post(url, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+      const fileType = file.type;
+      const res = await axios.get("http://localhost:5000/uploads", {
+        params: {
+          fileType: fileType,
+        },
+      });
+      const { url, fields, filePath } = res.data;
 
-    this.setState({ s3FileURL: `${url}/${filePath}` });
+      const formData = new FormData();
+      formData.append("Content-Type", fileType);
+      Object.entries(fields).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append("file", file);
+
+      await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress,
+      });
+
+      this.setState({ s3FileURL: `${url}/${filePath}` });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   renderDocument = () => {
@@ -60,6 +79,53 @@ class App extends Component {
     }
   };
 
+  checkFileSize = (file) => {
+    if (file.size > 10000000) {
+      return {
+        status: false,
+        message: `File is too large ${(file.size / 1000000).toFixed(
+          2
+        )}MB Maximum allowed file size is 10MB`,
+      };
+    } else {
+      return { status: true };
+    }
+  };
+
+  checkFileType = (file) => {
+    if (file.type !== "application/pdf") {
+      return { status: false, message: "You can only upload PDF files" };
+    } else {
+      return { status: true };
+    }
+  };
+
+  checkFileSelected = (file) => {
+    if (!file) {
+      return { status: false, message: "Please select a file" };
+    } else {
+      return { status: true };
+    }
+  };
+
+  handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (this.checkFileSelected(file).status) {
+      if (this.checkFileType(file).status) {
+        if (this.checkFileSize(file).status) {
+          this.setState({ file: event.target.files[0] });
+        } else {
+          console.log(this.checkFileSize(file).message);
+        }
+      } else {
+        console.log(this.checkFileType(file).message);
+      }
+    } else {
+      console.log(this.checkFileSelected(file).message);
+    }
+  };
+
   render = () => {
     return (
       <div className="ui container">
@@ -76,10 +142,11 @@ class App extends Component {
               type="file"
               accept=".pdf"
               name="material"
-              onChange={(event) => {
-                this.setState({ file: event.target.files[0] });
-              }}
+              onChange={this.handleFileChange}
             ></input>
+          </div>
+          <div>
+            <Progress percent={this.state.progress} indicating />
           </div>
           <button className="ui green button" type="submit">
             Submit
