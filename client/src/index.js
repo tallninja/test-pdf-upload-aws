@@ -6,7 +6,7 @@ import { Document, Page } from "react-pdf/dist/umd/entry.webpack";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { file: null, s3FileURL: null, numPages: null, pageNumber: 1 };
+    this.state = { file: null, s3FileURL: null };
   }
 
   onFormSubmit = (event) => {
@@ -38,23 +38,22 @@ class App extends Component {
     this.setState({ s3FileURL: `${url}/${filePath}` });
   };
 
-  onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({ numPages: numPages });
-  };
-
   renderDocument = () => {
     if (this.state.s3FileURL) {
-      const { pageNumber, numPages } = this.state;
       return (
-        <Document
-          file={this.state.s3FileURL}
-          onLoadSuccess={this.onDocumentLoadSuccess}
-        >
-          <Page pageNumber={pageNumber} />
-          <p>
-            {pageNumber} of {numPages}
-          </p>
-        </Document>
+        <div className="ui segment">
+          <div className="ui embed">
+            <embed
+              src={this.state.s3FileURL}
+              width="500"
+              height="375"
+              type="application/pdf"
+            />
+          </div>
+        </div>
+        // <Document file={this.state.s3FileURL}>
+        //   <Page pageNumber={1} />
+        // </Document>
       );
     } else {
       return null;
