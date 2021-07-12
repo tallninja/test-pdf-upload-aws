@@ -15,8 +15,8 @@ const path = require("path");
 const {
   STACK_PREFIX,
   DEPLOY_ENVIRONMENT,
-  FRONTEND_BASE_URL,
-  GET_PRESIGNED_URL_API_PATH,
+  ALLOWED_ORIGIN,
+  API_PATH,
 } = require("../config/constants");
 
 class PdfUploadStack extends Stack {
@@ -28,7 +28,7 @@ class PdfUploadStack extends Stack {
       cors: [
         {
           allowedMethods: [HttpMethods.GET, HttpMethods.POST, HttpMethods.PUT],
-          allowedOrigins: [FRONTEND_BASE_URL],
+          allowedOrigins: [ALLOWED_ORIGIN],
           allowedHeaders: ["*"],
         },
       ],
@@ -54,7 +54,7 @@ class PdfUploadStack extends Stack {
           CorsHttpMethod.DELETE,
         ],
         allowCredentials: true,
-        allowOrigins: [FRONTEND_BASE_URL],
+        allowOrigins: [ALLOWED_ORIGIN],
       },
     });
 
@@ -78,7 +78,7 @@ class PdfUploadStack extends Stack {
     s3bucket.grantPutAcl(getPresignedUrlFunction);
 
     httpApi.addRoutes({
-      path: `/${GET_PRESIGNED_URL_API_PATH}`,
+      path: `/${API_PATH}`,
       methods: [HttpMethod.GET],
       integration: new LambdaProxyIntegration({
         handler: getPresignedUrlFunction,

@@ -44,7 +44,7 @@ export function createPresignedURL({ fileType, filePath }) {
   const params = {
     Bucket: process.env.BUCKET_NAME,
     Fields: { key: filePath, acl: "public-read" },
-    Conditions: [["eq", "Content-Type", fileType]],
+    Conditions: [["eq", "$Content-Type", fileType]],
     Expires: 15,
   };
 
