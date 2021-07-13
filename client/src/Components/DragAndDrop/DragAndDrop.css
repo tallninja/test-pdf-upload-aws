@@ -1,0 +1,25 @@
+.drag-drop-container {
+  /* display: inline-block; */
+  position: relative;
+}
+
+.drag-drop-overlay {
+  border: dashed grey 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.drag-drop-overlay-text {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  text-align: center;
+  color: grey;
+  font-size: 36px;
+}
