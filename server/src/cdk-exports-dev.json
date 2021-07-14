@@ -1,7 +1,0 @@
-{
-  "test-pdf-upload-dev": {
-    "bucketName": "test-pdf-upload-dev-testpdfuploaddev2d15df94-kohs178nviq0",
-    "apiUrl": "https://5iq5ypqjy0.execute-api.af-south-1.amazonaws.com/",
-    "region": "af-south-1"
-  }
-}
