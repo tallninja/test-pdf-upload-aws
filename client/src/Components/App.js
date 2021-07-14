@@ -45,9 +45,19 @@ class App extends Component {
       const res = await axios.get("http://localhost:5000/uploads", {
         params: {
           fileType: fileType,
+          fileSubject: "Mathematics",
+          fileTopic: "Integers",
+          fileCategory: "notes",
+          fileName: `Integers-notes.${fileType.split("/")[1]}`,
         },
       });
-      const { url, fields, filePath } = res.data;
+
+      const {
+        url,
+        fields,
+        fileDetails: { fileSubject, fileTopic, fileCategory, fileName },
+      } = res.data;
+      const filePath = `${fileSubject}/${fileTopic}/${fileCategory}/${fileName}`;
 
       const formData = new FormData();
       formData.append("Content-Type", fileType);

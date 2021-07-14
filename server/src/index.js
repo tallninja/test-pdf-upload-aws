@@ -15,15 +15,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/uploads", async (req, res) => {
-  const apiResponse = await getPresignedURL(req.query.fileType);
+  const apiResponse = await getPresignedURL(req.query);
   res.status(200).send(apiResponse);
 });
 
-const getPresignedURL = async (fileType) => {
+const getPresignedURL = async ({
+  fileType,
+  fileSubject,
+  fileTopic,
+  fileCategory,
+  fileName,
+}) => {
   const API_BASE_URL = API_URL.slice(0, API_URL.length - 1);
-  const res = await axios.get(
-    `${API_BASE_URL}/${API_PATH}?fileType=${fileType}`
-  );
+  const res = await axios.get(`${API_BASE_URL}/${API_PATH}`, {
+    params: {
+      fileType,
+      fileSubject,
+      fileTopic,
+      fileCategory,
+      fileName,
+    },
+  });
   return res.data;
 };
 
