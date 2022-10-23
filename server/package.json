@@ -24,7 +24,7 @@
     "@aws-cdk/aws-logs": "^1.111.0",
     "@aws-cdk/aws-s3": "^1.111.0",
     "@aws-cdk/core": "^1.111.0",
-    "aws-cdk": "^1.111.0",
+    "aws-cdk": "^1.174.0",
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.941.0",
     "path": "^0.12.7",
